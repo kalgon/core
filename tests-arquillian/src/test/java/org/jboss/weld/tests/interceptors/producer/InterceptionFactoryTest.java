@@ -18,7 +18,6 @@
 package org.jboss.weld.tests.interceptors.producer;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.fail;
 
 import java.util.Arrays;
 import java.util.List;
@@ -98,6 +97,12 @@ public class InterceptionFactoryTest {
         assertEquals(Arrays.toString(new String[] { "pang" }), Producer.INVOCATIONS.get(0));
         assertEquals(3, list.size());
         assertEquals(1, Producer.INVOCATIONS.size()); // list.size() should not be intercepted
+    }
+    
+    @Test
+    public void testMessengerMessage(@Produced Messenger messenger) {
+    	assertEquals("Hello world!", messenger.message());
+    	messenger.hashCode(); // will throw if incorrectly intercepted
     }
 
     @Test

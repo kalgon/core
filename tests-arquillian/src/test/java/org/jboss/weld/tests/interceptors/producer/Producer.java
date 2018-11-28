@@ -102,7 +102,14 @@ public class Producer {
         }).findFirst().get().add(Monitor.Literal.INSTANCE);
         return interceptionFactory.createInterceptedInstance(new ArrayList<>(Arrays.asList("ping", "pong")));
     }
-
+    
+    @Produced
+    @ApplicationScoped
+    @Produces
+    public Messenger produceMessenger(InterceptionFactory<Messenger> interceptionFactory) {
+    	interceptionFactory.configure().add(Hello.Literal.INSTANCE);
+    	return interceptionFactory.createInterceptedInstance(new UnproxyableMessenger("world!"));
+    }
 
     @Produces
     @Produced
